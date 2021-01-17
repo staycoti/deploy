@@ -1,0 +1,1 @@
+destination ansible_host={{IP}} ansible_user={{user}} ansible_password={{MDP}} ansible_sudo_pass={{MDP}}

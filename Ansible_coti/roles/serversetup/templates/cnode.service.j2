@@ -1,0 +1,11 @@
+[Unit]
+Description=COTI Fullnode Service
+[Service]
+WorkingDirectory=/home/coti/coti-fullnode/
+ExecStart=/usr/bin/java -Xmx256m -jar /home/coti/coti-fullnode/fullnode/target/fullnode-{{ new_version_tag }}.RELEASE.jar --spring.config.additional-location=fullnode.properties
+SuccessExitStatus=143
+User=coti
+Restart=on-failure
+RestartSec=10
+[Install]
+WantedBy=multi-user.target

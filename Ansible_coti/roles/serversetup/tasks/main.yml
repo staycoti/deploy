@@ -1,0 +1,51 @@
+---
+- name: After that variables are defined
+  assert:
+    that:
+      - portno is defined
+      - username is defined
+      - email is defined
+      - servername is defined
+      - pkey is defined
+      - seed is defined
+    fail_msg: "Some details were not provided.  Script is now exiting.  Please run again and provide answers to all of the questions"
+
+- name: Detect the latest coti version
+  uri:
+    url: https://api.github.com/repos/coti-io/coti-node/releases/latest
+  register: coti_latest_release_tag
+
+- name: Set the latest version to a variable
+  set_fact:
+    new_version_tag: "{{ coti_latest_release_tag.json.tag_name }}"
+
+- name: Display the latest version tag
+  debug:
+    msg: "{{ new_version_tag }}"
+
+- name: Pad the seed variable
+  set_fact:
+    padded_seed: "{{ '%064s' | format(seed) | replace(' ','0') }}"
+
+- name: Pad the pkey variable
+  set_fact:
+    padded_pkey: "{{ '%064s' | format(pkey) | replace(' ','0') }}"
+
+- name: Fetch the Server IP
+  uri:
+    url: http://ipv4.icanhazip.com
+    return_content: true
+  register: web_result
+
+- name: Set the Server IP to a variable
+  set_fact:
+    serverip: "{{ web_result.content | trim }}"
+
+- name: "Ensure user account {{ username }} exists"
+  user:
+    name: "{{ username }}"
+    groups:
+      - sudo
+    append: true
+
+- include_tasks: install.yml

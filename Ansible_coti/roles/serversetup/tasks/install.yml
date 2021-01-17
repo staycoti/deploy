@@ -1,0 +1,99 @@
+---
+- name: Update all packages to their latest version
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: Install packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+
+- name: Setup UFW
+  ufw:
+    port: "{{ item.port }}"
+    rule: "{{ item.state }}"
+  with_items: "{{ ufw_rules }}"
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+
+- name: Ensure directory exists for git repo
+  become_user: "{{ username }}"
+  file:
+    path: "~/coti-fullnode"
+    state: directory
+
+- name: Clone coti-fullnode repo
+  become_user: "{{ username }}"
+  git:
+    repo: https://github.com/coti-io/coti-fullnode.git
+    dest: "~/coti-fullnode"
+
+- name: Execute maven commands
+  shell: |
+    chown -R coti: /home/{{ username }}/coti-fullnode/
+    cd /home/{{ username }}/coti-fullnode/
+    sudo -u coti mvn initialize && sudo -u coti mvn clean compile && sudo -u coti mvn -Dmaven.test.skip=true package
+
+- name: Create fullnode.properties file
+  become_user: "{{ username }}"
+  template:
+    src: fullnode.properties.j2
+    dest: "~/coti-fullnode/fullnode.properties"
+    owner: coti
+    group: coti
+
+- name: Ensure FullNode1_clusterstamp.csv exists
+  become_user: "{{ username }}"
+  get_url:
+    url: https://www.dropbox.com/s/rpyercs56zmay0z/FullNode1_clusterstamp.csv?dl=1
+    dest: "~/coti-fullnode/FullNode1_clusterstamp.csv"
+    owner: coti
+    group: coti
+    backup: yes
+    force: yes
+        
+- name: Generate the certificate
+  command: "certbot certonly --nginx --non-interactive --agree-tos -m {{ email }} -d {{ servername }}"
+
+- name: Create Nginx configuration file coti_fullnode.conf
+  template:
+    src: coti_fullnode.conf.j2
+    dest: /etc/nginx/sites-enabled/coti_fullnode.conf
+
+- name: Restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+
+- name: Create cnode.service configuration
+  template:
+    src: cnode.service.j2
+    dest: /etc/systemd/system/cnode.service
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: true
+
+- name: Enable and start cnode.service
+  systemd:
+    name: cnode
+    enabled: yes
+    state: started
+
+- pause:
+    seconds: 5
+
+- name: Wait till coti-fullnode is up
+  become_user: "{{ username }}"
+  wait_for:
+    path: "~/coti-fullnode/logs/FullNode1.log"
+    search_regex: 'COTI FULL NODE IS UP'
+    timeout: 1800
+
+- debug:
+    msg:
+      - "Your node is registered and running on the COTI Network"
+      - "You can monitor it here : https://coti-statistics.betternode.net/testnet"

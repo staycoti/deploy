@@ -1,0 +1,24 @@
+---
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+  - openjdk-8-jdk
+  - maven
+  - nginx
+  - certbot
+  - python-certbot-nginx
+  - ufw
+  - nano
+  - git
+ufw_rules:
+  - port: "{{ portno }}"
+    state: limit
+  - port: 80
+    state: allow
+  - port: 443
+    state: allow
+  - port: 7070
+    state: allow

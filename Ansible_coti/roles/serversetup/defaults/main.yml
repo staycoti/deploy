@@ -1,0 +1,7 @@
+---
+portno: 22
+username: coti
+email: "{{EMAIL}}"
+servername: "{{IP}}"
+pkey: "{{private_key}}"
+seed: "{{wallet-seed}}"
