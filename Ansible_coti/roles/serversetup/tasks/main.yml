@@ -26,10 +26,12 @@
 - name: Pad the seed variable
   set_fact:
     padded_seed: "{{ '%064s' | format(seed) | replace(' ','0') }}"
+  no_log: true
 
 - name: Pad the pkey variable
   set_fact:
     padded_pkey: "{{ '%064s' | format(pkey) | replace(' ','0') }}"
+  no_log: true
 
 - name: Fetch the Server IP
   uri:
