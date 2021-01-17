@@ -2,6 +2,7 @@
 NODE COTI - FULL AUTOMATED DEPLOYMENT SYSTEM
 
 Go to https://deploy.staycoti.fr to deploy your node on the coti's testnet
+No skill needed 
 
 Thank you to fill all the fields.
 !! No data is backed up - feel reassured !!
