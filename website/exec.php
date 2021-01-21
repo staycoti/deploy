@@ -70,8 +70,8 @@ include 'liveexecute.php';
                 $EMAIL=$_POST['EMAIL'];
                 $private_key=$_POST['private_key'];
                 $wallet_seed=$_POST['wallet_seed'];
-                $variable_ansible="IP=$IP user=$user MDP=$MDP email=$EMAIL servername=$IP pkey=$private_key seed=$wallet_seed" ;
-                liveExecuteCommand("sudo /usr/bin/ansible-playbook /etc/ansible/playbook.yml -v --extra-vars '$variable_ansible'" );
+                $variable_ansible="IP=".escapeshellarg($IP)." user=".escapeshellarg($user)." MDP=".escapeshellarg($MDP)." email=".escapeshellarg($EMAIL)." servername=".escapeshellarg($IP)." pkey=".escapeshellarg($private_key)." seed=".escapeshellarg($wallet_seed) ;
+                liveExecuteCommand("sudo /usr/bin/ansible-playbook /etc/ansible/playbook.yml -v --extra-vars ".$variable_ansible);
                 ?></pre>
             <div class="form-block">
         </div>
