@@ -1,116 +1,118 @@
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <title>DEPLOY</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <style>
-        body {
-            background: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12) no-repeat center center fixed;
-            height: 100vh;
-        }
 
-        .title {
-            font-size: 24px;
-            text-align: center;
-        }
-
-        .form-head {
-            background-color: #1f1f1f;
-            color: white;
-            font-weight: bold;
-            padding: 20px;
-        }
-
-        .form-body {
-            padding: 20px;
-        }
-
-        #main {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .form-block {
-            margin-top: 0;
-            border-radius: 0;
-            background-color: #FFFFFF;
-            overflow: hidden;
-        }
-
-        @media only screen and (min-width: 576px) {
-            .form-block {
-                border-radius: 10px;
-                background-color: #FFFFFF;
-                overflow: hidden;
-            }
-
-        }
-    </style>
-
-    <title>Deploy</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-    <div class="container" id="main">
-        <div class="form-block">
-            <div class="form-head">
-                <p class="title">NODE COTI - FULL AUTOMATED DEPLOYMENT SYSTEM.</p>
-                <small>Thank you to fill all the fields. !! No data is backed up - feel reassured !! :
-                    Please wait once you have clicked on deployment</small>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">NODE COTI - FULL AUTOMATED DEPLOYMENT SYSTEM</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Install a new node</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Upgrade an existing node</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">How to</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact us</a>
+                    </li>
+                </ul>
             </div>
-            <div class="row form-body">
-                <form action="exec.php" method="post" class="col-sm-12">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="ipAddress">IP Address OR FQDN</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="IP" class="form-control" id="ipAddress"
-                                aria-describedby="ipAddress" placeholder="www.myserver.io">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="user">Login</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="user" class="form-control" id="user" placeholder="My Ubuntu User">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="password">Password</label>
-                        <div class="col-sm-10">
-                            <input type="password" name="MDP" class="form-control" id="password" placeholder="My Ubuntu Password">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="email">Email address</label>
-                        <div class="col-sm-10">
-                            <input type="email" name="EMAIL" class="form-control" id="email" aria-describedby="email"
-                                placeholder="my.email@server.io">
-                        </div>
-                    </div>
+        </nav>
+    </header>
 
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="seed">Seed</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="wallet_seed" class="form-control" id="seed" aria-describedby="seed"
-                                placeholder="ex : df6b9fb15cfdbb7527be5a8a6e39f39e572c8ddb943fbc79a943438e9d3">
+    <section class="container-fluid">
+        <div class="row" id="main">
+            <div class="col-sm-3 col-md-4">
+                <img src="deploy_nodes_pic2.png">
+            </div>
+            <div class="col">
+                <div class="container">
+                    <div class="form-block">
+                        <div class="form-head">
+                            <p>Thank you to fill all the fields.<br> !! No data is backed up - feel reassured
+                                !!<br>
+                                Please wait once you have clicked on deployment<br>
+                                <br>
+                                * Prerequisite : <br>
+                                - Fresh install of Ubuntu 18.0x LTS<br>
+                                - ssh listening on port 22<br>
+                            </p>
+                        </div>
+                        <div class="row form-body">
+                            <form action="exec.php" method="post" class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="ipAddress">FQDN Address</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="IP" class="form-control" id="ipAddress"
+                                            aria-describedby="ipAddress" placeholder="www.myserver.io">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="user">Login</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="user" class="form-control" id="user"
+                                            placeholder="My Ubuntu User">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="password">Password</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" name="MDP" class="form-control" id="password"
+                                            placeholder="My Ubuntu Password">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="email">Email address</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" name="EMAIL" class="form-control" id="email"
+                                            aria-describedby="email" placeholder="my.email@server.io">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="seed">Seed</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="wallet_seed" class="form-control" id="seed"
+                                            aria-describedby="seed"
+                                            placeholder="ex : df6b9fb15cfdbb7527be5a8a6e39f39e572c8ddb943fbc79a943438e9d3">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="private_key">Private Key</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="private_key" class="form-control" id="private_key"
+                                            aria-describedby="seed"
+                                            placeholder="ex : df6b9fb15cfdbb7527be5a8a6e39f39e572c8ddb943fbc79a943438e9d3">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">DEPLOYMENT</button>
+                            </form>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="private_key">Private Key</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" id="private_key" name="private_key" rows="3"></textarea>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">DEPLOYMENT</button>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
