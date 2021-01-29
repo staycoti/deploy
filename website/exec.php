@@ -48,7 +48,7 @@ include 'liveexecute.php';
         }
     </style>
 
-    <title>Hello, world!</title>
+    <title>COTI NODE - Deploying</title>
 </head>
 
 <body>
