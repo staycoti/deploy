@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>DEPLOY</title>
+    <title>DEPLOY - Node upgrade</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -23,10 +23,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="./index.html">Install a new node</span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="./node_upgrade.html">Upgrade an existing node</a>
                     </li>
                     <li class="nav-item">
@@ -54,12 +54,12 @@
                                 Please wait once you have clicked on deployment<br>
                                 <br>
                                 * Prerequisite : <br>
-                                - Fresh install of Ubuntu 18.0x LTS<br>
+                                - A node previously deployed with DEPLOY<br>
                                 - ssh listening on port 22<br>
                             </p>
                         </div>
                         <div class="row form-body">
-                            <form action="exec.php" method="post" class="col-sm-12">
+                            <form action="exec2.php" method="post" class="col-sm-12">
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="ipAddress">FQDN Address</label>
                                     <div class="col-sm-10">
@@ -79,30 +79,6 @@
                                     <div class="col-sm-10">
                                         <input type="password" name="MDP" class="form-control" id="password"
                                             placeholder="My Ubuntu Password">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label" for="email">Email address</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" name="EMAIL" class="form-control" id="email"
-                                            aria-describedby="email" placeholder="my.email@server.io">
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label" for="seed">Seed</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" name="wallet_seed" class="form-control" id="seed"
-                                            aria-describedby="seed"
-                                            placeholder="ex : df6b9fb15cfdbb7527be5a8a6e39f39e572c8ddb943fbc79a943438e9d3">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label" for="private_key">Private Key</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" name="private_key" class="form-control" id="private_key"
-                                            aria-describedby="seed"
-                                            placeholder="ex : df6b9fb15cfdbb7527be5a8a6e39f39e572c8ddb943fbc79a943438e9d3">
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">DEPLOYMENT</button>
