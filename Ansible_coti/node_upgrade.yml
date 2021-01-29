@@ -1,0 +1,89 @@
+---
+- hosts: destination
+  gather_facts: true
+  become: true
+  become_user: " {{ ansible_user }} "
+  vars:
+    filename: '/etc/systemd/system/cnode.service'
+
+  tasks:
+  - name: Update coti-fullnode repo
+    become_user: " coti "
+    git:
+      repo: https://github.com/coti-io/coti-fullnode.git
+      dest: "/home/coti/coti-fullnode/"
+    register: clone_result
+
+  - name: Run maven
+    become_user : "root "
+    shell: |
+      chown -R coti: /home/coti/coti-fullnode/
+      cd /home/coti/coti-fullnode/
+      mvn initialize && mvn clean compile && mvn -Dmaven.test.skip=true package
+    when: clone_result.changed
+
+  - name: Detect the latest coti version
+    uri:
+      url: https://api.github.com/repos/coti-io/coti-node/releases/latest
+    register: coti_latest_release_tag
+
+  - name: Set the latest version to a variable
+    set_fact:
+      new_version_tag: "{{ coti_latest_release_tag.json.tag_name }}"
+
+  - name: Set value for new_jar_name variable
+    set_fact:
+      new_jar_name: "fullnode-{{ new_version_tag }}.RELEASE.jar"
+
+  - name: Display the value of new_jar_name
+    debug:
+      msg: "{{ new_jar_name }}"
+
+  - name: Slurp hosts file
+    slurp:
+      src: "{{ filename }}"
+    register: service_file
+
+  - name: Set value for old_jar_name variable
+    set_fact:
+      old_jar_name: "{{ service_file['content'] | b64decode  | regex_search('fullnode-.*.*.RELEASE\\.jar')}}"
+
+  - name: Display the value of old_jar_name
+    debug:
+      msg: "{{ old_jar_name }}"
+
+  - name: Perform upgrade if the new and old versions do not match
+    become_user: " root "
+    block:
+      - template:
+          src: /etc/ansible/roles/serversetup/templates/cnode.service.j2
+          dest: /etc/systemd/system/cnode.service     
+          force: yes
+          backup : yes
+
+      - name: Reload systemd
+        systemd:
+          daemon_reload: true
+
+      - name: Enable and start cnode.service
+        systemd:
+          name: cnode
+          state: restarted
+
+      - pause:
+          seconds: 5
+
+      - name: Check the status of coti.service
+        command: systemctl is-active cnode.service
+        register: service_status
+        failed_when: false
+
+      - debug: 
+          msg:
+            - "Node upgrade OK and the service status is active"
+            - "You can monitor it here : https://coti-statistics.betternode.net/testnet"
+        when: service_status.stdout == 'active'
+
+      - debug: msg="Service status is not active, it is {{ service_status.stdout }}"
+        when: service_status.stdout != 'active'
+    when: new_jar_name != old_jar_name
