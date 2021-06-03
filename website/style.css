@@ -11,7 +11,6 @@ body {
   min-height: 100vh;
   background: #0f8a9d;
   background: linear-gradient(57deg, #00c6a7, #1e4d92);
-  
 
   color: white;
   font-size: 16px;
@@ -21,9 +20,9 @@ img {
 }
 
 #main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .form-head {
@@ -35,14 +34,171 @@ img {
   font-weight: bold;
 }
 
-@media (min-width: 576px) {  
-    body{
-        clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 0% 100%);
-    }
+@media (min-width: 576px) {
+  body {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 0% 100%);
+  }
 }
 .navbar-brand {
-    white-space: normal;
+  white-space: normal;
 }
 .nav-link {
-    text-decoration: underline;
+  text-decoration: underline;
 }
+
+/* start contact */
+@media screen and (min-width: 576px) {
+  .contact-container {
+    padding-bottom: 100px;
+  }
+}
+
+.server-detail-header {
+  border: 3px solid #45b7a6;
+  border-radius: 10px;
+  height: 370px;
+  background-color: #1f233d;
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  position: relative;
+  box-shadow: inset 0 0 20px #000, 0 5px 20px rgb(0 0 0 / 70%);
+  background-image: url(https://cdn.discord.me/server/f6c76be6d2a81bb8a3f1557d634d8da0f29921189767407e24fa095101f4ddc9/banner_80c615302db8e2f4cdf9793c2b7a973603bc7f1c58c986a7e9f6b61950b9e21f.jpg);
+}
+
+.server-menu {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding-bottom: 70px;
+  z-index: 9;
+}
+
+.server-menu .dropdown-toggle {
+  color: #fff;
+  font-size: 21px;
+  text-shadow: 0 1px 5px #000;
+  padding: 5px;
+  line-height: 0;
+  cursor: pointer;
+}
+
+.server-menu .dropleft .dropdown-toggle::before {
+  content: none;
+}
+
+.server-menu .dropdown-menu .dropdown-item {
+  font-size: 14px;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.server-detail-subhead {
+  height: 100px;
+  position: relative;
+}
+
+.server-detail-subhead .server-title {
+  position: absolute;
+  top: -64px;
+  left: 10px;
+}
+
+.server-detail-subhead .server-title .server-img {
+  float: left;
+  border-radius: 50%;
+  border: 3px solid #45b7a6;
+  box-shadow: 0 3px 20px rgb(0 0 0 / 80%);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #30375f;
+  width: 128px;
+  height: 128px;
+  margin-right: 18px;
+}
+
+.server-name {
+  font-size: 32px;
+  color: #fff;
+  padding-top: 70px;
+  display: block;
+  float: left;
+  width: 580px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+.server-name.server-name-mobile {
+  font-size: 28px;
+  line-height: 32px;
+  width: 100%;
+  white-space: normal;
+  float: none;
+  padding: 10px 0 15px;
+}
+
+.server-name a,
+.server-name-mobile a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.server-name a:hover,
+.server-name-mobile a:hover {
+  color: #fff;
+}
+
+.server-btns {
+  float: right;
+  text-align: left;
+  min-height: 65px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.server-join-btn {
+  background: #019c85;
+  border-radius: 5px;
+  font-size: 18px;
+  color: #fff;
+  text-decoration: none;
+  line-height: 0;
+  padding: 10px 20px 10px 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: box-shadow 0.1s linear, background-color 0.1s linear,
+    margin 0.1s linear, padding 0.1s linear;
+  margin: 0 5px 8px;
+}
+
+.server-join-btn:hover {
+  box-shadow: 0 0 7px 3px #019c85;
+  background-color: #019c85;
+  color: #fff;
+  text-decoration: none;
+}
+
+.server-join-btn span {
+  padding-right: 12px;
+  border-right: 1px solid hsla(0, 0%, 100%, 0.2);
+  box-shadow: 1px 0 0 rgb(0 0 0 / 30%);
+  margin-right: 6px;
+}
+
+.server-sidebar {
+  border-right: 1px solid #03826f;
+  padding-right: 15px;
+}
+
+@media only screen and (max-width: 768px) {
+  .server-sidebar {
+    border-right: none;
+  }
+}
+/* end contact */
+
