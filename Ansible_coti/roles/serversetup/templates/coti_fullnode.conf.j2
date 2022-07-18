@@ -1,23 +1,48 @@
-network=TestNet
-server.ip={{ serverip }}
-server.port=7070
-server.url=https://{{ servername }}
-application.name=FullNode
-logging.file.name=FullNode1
-database.folder.name=rocksDB1
-resetDatabase=false
-global.private.key={{ padded_pkey }}
-fullnode.seed={{ padded_seed }}
-minimumFee=0.01
-maximumFee=100
-fee.percentage=1
-zero.fee.user.hashes=9c37d52ae10e6b42d3bb707ca237dd150165daca32bf8ef67f73d1e79ee609a9f88df0d437a5ba5a6cf7c68d63c077fa2c63a21a91fc192dfd9c1fe4b64bb959
-kycserver.public.key=c10052a39b023c8d4a3fc406a74df1742599a387c58bcea2a2093bd85103f3bd22816fa45bbfb26c1f88a112f0c0b007755eb1be1fad3b45f153adbac4752638
-kycserver.url=https://cca.coti.io
-node.manager.ip=52.59.142.53
-node.manager.port=7090
-node.manager.propagation.port=10001
-allow.transaction.monitoring=true
-whitelist.ips=127.0.0.1,0:0:0:0:0:0:0:1
-node.manager.public.key=2fc59886c372808952766fa5a39d33d891af69c354e6a5934a258871407536d6705693099f076226ee5bf4b200422e56635a7f3ba86df636757e0ae42415f7c2
-regular.token.fullnode.fee=1
+server {
+    listen      80;
+    return 301  https://$host$request_uri;
+}server {
+    listen      443 ssl;
+    listen [::]:443;
+    server_name {{ servername }};
+    ssl_certificate /etc/letsencrypt/live/{{ servername }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ servername }}/privkey.pem;
+    ssl_protocols TLSv1.3 TLSv1.2;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+    ssl_dhparam /etc/nginx/dhparam.pem;
+    
+    # OCSP stapling
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ servername }}/chain.pem;
+    resolver 1.1.1.1 8.8.8.8 valid=300s;
+    resolver_timeout 10s;
+    
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+	
+    gzip on;
+    gzip_comp_level    5;
+    gzip_min_length    256;
+    gzip_proxied       any;
+    gzip_vary          on;
+    gzip_types
+        text/css
+        application/json
+        application/x-javascript
+        text/javascript
+        application/javascript
+        image/png
+        image/jpg
+        image/jpeg
+        image/svg+xml
+        image/gif
+        image/svg;location  / {
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_pass http://127.0.0.1:7070;
+    }
+}
