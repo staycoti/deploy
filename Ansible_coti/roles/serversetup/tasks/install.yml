@@ -22,26 +22,26 @@
 - name: Ensure directory exists for git repo
   become_user: "{{ username }}"
   file:
-    path: "~/coti-fullnode"
+    path: "~/coti-node"
     state: directory
 
 - name: Clone coti-fullnode repo
   become_user: "{{ username }}"
   git:
     repo: https://github.com/coti-io/coti-fullnode.git
-    dest: "~/coti-fullnode"
+    dest: "~/coti-node"
 
 - name: Execute maven commands
   shell: |
-    chown -R coti: /home/{{ username }}/coti-fullnode/
-    cd /home/{{ username }}/coti-fullnode/
+    chown -R coti: /home/{{ username }}/coti-node/
+    cd /home/{{ username }}/coti-node/
     sudo -u coti mvn initialize && sudo -u coti mvn clean compile && sudo -u coti mvn -Dmaven.test.skip=true package
 
 - name: Create fullnode.properties file
   become_user: "{{ username }}"
   template:
     src: fullnode.properties.j2
-    dest: "~/coti-fullnode/fullnode.properties"
+    dest: "~/coti-node/fullnode.properties"
     owner: coti
     group: coti
 
@@ -49,7 +49,7 @@
   become_user: "{{ username }}"
   get_url:
     url: https://www.dropbox.com/s/rpyercs56zmay0z/FullNode1_clusterstamp.csv?dl=1
-    dest: "~/coti-fullnode/FullNode1_clusterstamp.csv"
+    dest: "~/coti-node/FullNode1_clusterstamp.csv"
     owner: coti
     group: coti
     backup: yes
@@ -57,6 +57,9 @@
         
 - name: Generate the certificate
   command: "certbot certonly --nginx --non-interactive --agree-tos -m {{ email }} -d {{ servername }}"
+
+- name: dhparam
+  command: "openssl dhparam -out /etc/nginx/dhparam.pem 2048"
 
 - name: Create Nginx configuration file coti_fullnode.conf
   template:
@@ -86,10 +89,10 @@
 - pause:
     seconds: 5
 
-- name: Wait till coti-fullnode is up
+- name: Wait till coti-node is up
   become_user: "{{ username }}"
   wait_for:
-    path: "~/coti-fullnode/logs/FullNode1.log"
+    path: "~/coti-node/logs/FullNode1.log"
     search_regex: 'COTI FULL NODE IS UP'
     timeout: 1800
 
